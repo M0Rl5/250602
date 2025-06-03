@@ -1064,18 +1064,20 @@ class _StatisticsPageState extends State<StatisticsPage> with TickerProviderStat
   // 일간 뷰
   Widget _buildDailyView() {
     return SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           _buildDateSelector(),
           const SizedBox(height: 16),
           _buildAchievementBadges(_dailyAchievements, '일간'),
+          const SizedBox(height: 16),
           _buildDailySummaryCard(),
-            const SizedBox(height: 20),
+          const SizedBox(height: 20),
           _buildTimeTable(),
-            const SizedBox(height: 20),
-          _buildDailyCategoryChart(),
+          const SizedBox(height: 20),
+          // 일간 데이터를 리스트로 변환하여 _buildCategoryChart 함수 사용
+          _buildCategoryChart(_dailyData != null ? [_dailyData!] : []),
         ],
       ),
     );
@@ -1156,7 +1158,7 @@ class _StatisticsPageState extends State<StatisticsPage> with TickerProviderStat
     );
   }
 
-  // 날짜 선택기 - 더 직관적인 UI로 개선
+  // 날짜 선택기
   Widget _buildDateSelector() {
     final now = DateTime.now();
     final startOfWeek = _selectedWeek.subtract(Duration(days: _selectedWeek.weekday - 1));
